@@ -14,7 +14,7 @@ Or bower, too.
 bower install copy --save
 ```
 
-If you're not into package management, just [https://github.com/duyetdev/copy.js/archive/master.zip](download a ZIP) file.
+If you're not into package management, just [download a ZIP](https://github.com/duyetdev/copy.js/archive/master.zip) file.
 
 # Setup
 
