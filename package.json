@@ -1,0 +1,39 @@
+{
+  "name": "copy.js",
+  "version": "0.1.0",
+  "description": "Simple copy function for browser.",
+  "main": "dist/copy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm run build-debug && npm run build-min",
+    "build-debug": "browserify src/copy.js -o dist/copy.js",
+    "build-min": "uglifyjs dist/copy.js --comments '/!/' -m screw_ie8=true -c screw_ie8=true,unused=false -o dist/copy.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/duyetdev/copy.js.git"
+  },
+  "keywords": [
+    "copy.js",
+    "copy",
+    "clipboard",
+    "exec"
+  ],
+  "author": "Van-Duyet Le <me@duyetdev.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/duyetdev/copy.js/issues"
+  },
+  "homepage": "https://github.com/duyetdev/copy.js#readme",
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "chai": "^3.5.0",
+    "karma": "^0.13.21",
+    "karma-browserify": "^5.0.1",
+    "karma-chai": "^0.1.0",
+    "phantomjs": "^2.1.3",
+    "phantomjs-polyfill": "0.0.1",
+    "uglify-js": "^2.6.1",
+    "watchify": "^3.7.0"
+  }
+}

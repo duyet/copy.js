@@ -1,0 +1,28 @@
+{
+  "name": "copy",
+  "description": "Simple copy function for browser.",
+  "main": "dist/copy.js",
+  "authors": [
+    "Van-Duyet Le <me@duyetdev.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "copy.js",
+    "copy",
+    "clipboard",
+    "exec"
+  ],
+  "homepage": "https://github.com/duyetdev/copy.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
