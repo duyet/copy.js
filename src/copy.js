@@ -1,5 +1,5 @@
 var copyJs = copyJs || function copyJs(text) {
-    var fakeEle = document.createElement("fakeEle");
+    var fakeEle = document.createElement("textarea");
 
     // Place in top-left corner of screen regardless of scroll position.
     fakeEle.style.position = 'fixed';
@@ -40,20 +40,6 @@ var copyJs = copyJs || function copyJs(text) {
     document.body.removeChild(fakeEle);
 }
 
-(function() {
-    // Establish the root object, `window` in the browser, or `global` on the server.
-    var root = this;
-
-    var isNode = false;
-
-    // Export the Underscore object for **CommonJS**, with backwards-compatibility
-    // for the old `require()` API. If we're not in CommonJS, add `copy` to the
-    // global object.
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = copyJs;
-        root.copy = copyJs;
-        isNode = true;
-    } else {
-        root.copy = copyJs;
-    }
-})();
+// export
+if (window) window.copy = copyJs;
+module.exports = copyJs;

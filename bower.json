@@ -1,7 +1,7 @@
 {
   "name": "copy",
   "description": "Simple copy function for browser.",
-  "main": "dist/copy.js",
+  "main": "dist/copy.min.js",
   "authors": [
     "Van-Duyet Le <me@duyetdev.com>"
   ],

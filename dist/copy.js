@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var copyJs = copyJs || function copyJs(text) {
-    var fakeEle = document.createElement("fakeEle");
+    var fakeEle = document.createElement("textarea");
 
     // Place in top-left corner of screen regardless of scroll position.
     fakeEle.style.position = 'fixed';
@@ -41,22 +41,7 @@ var copyJs = copyJs || function copyJs(text) {
     document.body.removeChild(fakeEle);
 }
 
-(function() {
-    // Establish the root object, `window` in the browser, or `global` on the server.
-    var root = this;
-
-    var isNode = false;
-
-    // Export the Underscore object for **CommonJS**, with backwards-compatibility
-    // for the old `require()` API. If we're not in CommonJS, add `copy` to the
-    // global object.
-    if (typeof module !== 'undefined' && module.exports) {
-        module.exports = copyJs;
-        root.copy = copyJs;
-        isNode = true;
-    } else {
-        root.copy = copyJs;
-    }
-})();
-
+// export
+if (window) window.copy = copyJs;
+module.exports = copyJs;
 },{}]},{},[1]);
