@@ -29,18 +29,20 @@ var copyJs = copyJs || function copyJs(text, callback) {
 
     fakeEle.select();
 
+    var error = null;
     try {
         var successful = document.execCommand('copy');
-        var msg = successful ? 'successful' : 'unsuccessful';
-        console.warn('Copying text command was ' + msg);
-
-        if (callback) callback(msg != 'successful' ? true : null);
+        error = successful ? false : true;
     } catch (err) {
         console.warn('Unable to copy.');
-        if (callback) callback(true);
+        error = true;
     }
 
+    // Clean up
     document.body.removeChild(fakeEle);
+
+    if (callback) callback(error);
+    return !!error;
 }
 
 // export
