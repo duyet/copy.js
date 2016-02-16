@@ -1,4 +1,4 @@
-# copy.js
+# copy.js [![npm version](https://badge.fury.io/js/copy-js.svg)](https://badge.fury.io/js/copy-js) 
 
 Simple copy to clipboard. No Flash.
 
