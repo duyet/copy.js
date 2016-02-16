@@ -1,4 +1,4 @@
-var copyJs = copyJs || function copyJs(text) {
+var copyJs = copyJs || function copyJs(text, callback) {
     var fakeEle = document.createElement("textarea");
 
     // Place in top-left corner of screen regardless of scroll position.
@@ -33,8 +33,11 @@ var copyJs = copyJs || function copyJs(text) {
         var successful = document.execCommand('copy');
         var msg = successful ? 'successful' : 'unsuccessful';
         console.warn('Copying text command was ' + msg);
+
+        if (callback) callback(msg != 'successful' ? true : null);
     } catch (err) {
         console.warn('Unable to copy.');
+        if (callback) callback(true);
     }
 
     document.body.removeChild(fakeEle);
