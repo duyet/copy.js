@@ -6,7 +6,7 @@ Simple copy to clipboard. No Flash.
 
 You can get it on npm.
 ```sh
-npm install copy.js --save
+npm install copy-js --save
 ```
 
 Or bower, too.
