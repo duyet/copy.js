@@ -4,14 +4,14 @@ Simple copy to clipboard. No Flash.
 
 # Install
 
-You can get it on npm.
+You can get it on bower.
 ```sh
-npm install copy-js --save
+bower install copy --save
 ```
 
-Or bower, too.
+Or npm, too.
 ```
-bower install copy --save
+npm install copy-js --save
 ```
 
 If you're not into package management, just [download a ZIP](https://github.com/duyetdev/copy.js/archive/master.zip) file.
