@@ -137,7 +137,7 @@ function copyWithExecCommand(text: string): boolean {
   let success = false;
   try {
     success = document.execCommand('copy');
-  } catch (err) {
+  } catch {
     success = false;
   }
 

@@ -122,7 +122,7 @@ describe('copy.js', () => {
 
       try {
         await copy('Test', { debug: false });
-      } catch (e) {
+      } catch {
         // Expected to fail
       }
 
