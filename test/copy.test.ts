@@ -11,16 +11,92 @@ import copy, { isSupported } from '../src/copy';
 
 describe('copy.js', () => {
   let originalExecCommand: typeof document.execCommand;
+  let originalClipboard: typeof navigator.clipboard;
 
   beforeEach(() => {
     originalExecCommand = document.execCommand;
+    originalClipboard = navigator.clipboard;
   });
 
   afterEach(() => {
     document.execCommand = originalExecCommand;
+    Object.defineProperty(navigator, 'clipboard', {
+      value: originalClipboard,
+      writable: true,
+      configurable: true,
+    });
+  });
+
+  describe('Clipboard API', () => {
+    it('should use Clipboard API when available', async () => {
+      const writeTextMock = vi.fn().mockResolvedValue(undefined);
+      Object.defineProperty(navigator, 'clipboard', {
+        value: { writeText: writeTextMock },
+        writable: true,
+        configurable: true,
+      });
+
+      await copy('Clipboard API test');
+
+      expect(writeTextMock).toHaveBeenCalledWith('Clipboard API test');
+    });
+
+    it('should fallback to execCommand when Clipboard API fails', async () => {
+      const writeTextMock = vi
+        .fn()
+        .mockRejectedValue(new Error('Permission denied'));
+      Object.defineProperty(navigator, 'clipboard', {
+        value: { writeText: writeTextMock },
+        writable: true,
+        configurable: true,
+      });
+      const execCommandMock = vi.fn().mockReturnValue(true);
+      document.execCommand = execCommandMock;
+
+      await copy('Fallback test');
+
+      expect(writeTextMock).toHaveBeenCalled();
+      expect(execCommandMock).toHaveBeenCalledWith('copy');
+    });
+
+    it('should throw error when Clipboard API fails and fallback is disabled', async () => {
+      const writeTextMock = vi
+        .fn()
+        .mockRejectedValue(new Error('Permission denied'));
+      Object.defineProperty(navigator, 'clipboard', {
+        value: { writeText: writeTextMock },
+        writable: true,
+        configurable: true,
+      });
+
+      await expect(copy('Should fail', { fallback: false })).rejects.toThrow(
+        'Permission denied'
+      );
+    });
+
+    it('should throw error when no clipboard API is available and fallback is disabled', async () => {
+      Object.defineProperty(navigator, 'clipboard', {
+        value: undefined,
+        writable: true,
+        configurable: true,
+      });
+
+      await expect(copy('Should fail', { fallback: false })).rejects.toThrow(
+        'No clipboard API available and fallback is disabled'
+      );
+    });
   });
 
   describe('execCommand fallback', () => {
+    beforeEach(() => {
+      // Ensure no Clipboard API for these tests
+      Object.defineProperty(navigator, 'clipboard', {
+        value: undefined,
+        writable: true,
+        configurable: true,
+      });
+    });
+
     it('should copy text using execCommand', async () => {
       const execCommandMock = vi.fn().mockReturnValue(true);
       document.execCommand = execCommandMock;
