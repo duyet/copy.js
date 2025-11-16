@@ -1,7 +1,12 @@
 # copy.js
 
-[![npm version](https://badge.fury.io/js/copy-js.svg)](https://badge.fury.io/js/copy-js)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://img.shields.io/npm/v/copy-js.svg?style=flat-square)](https://www.npmjs.com/package/copy-js)
+[![npm downloads](https://img.shields.io/npm/dm/copy-js.svg?style=flat-square)](https://www.npmjs.com/package/copy-js)
+[![Bundle Size](https://img.shields.io/bundlephobia/minzip/copy-js?style=flat-square&label=gzip%20size)](https://bundlephobia.com/package/copy-js)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![CI](https://img.shields.io/github/actions/workflow/status/duyetdev/copy.js/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/duyetdev/copy.js/actions)
+[![Code Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?style=flat-square)](https://github.com/duyetdev/copy.js)
 
 > Elegant clipboard copy for the modern web. Zero dependencies, TypeScript support, Promise-based with intelligent fallbacks.
 
@@ -166,12 +171,12 @@ if (isSupported()) {
 
 ## Browser Support
 
-| Feature         | Support                                                |
-| --------------- | ------------------------------------------------------ |
-| Clipboard API   | Chrome 66+, Firefox 63+, Safari 13.1+, Edge 79+       |
-| execCommand     | All modern browsers + IE 9+                            |
-| Secure Context  | Required for Clipboard API (HTTPS or localhost)        |
-| Fallback        | Automatic degradation to execCommand when API unavailable |
+| Feature        | Support                                                   |
+| -------------- | --------------------------------------------------------- |
+| Clipboard API  | Chrome 66+, Firefox 63+, Safari 13.1+, Edge 79+           |
+| execCommand    | All modern browsers + IE 9+                               |
+| Secure Context | Required for Clipboard API (HTTPS or localhost)           |
+| Fallback       | Automatic degradation to execCommand when API unavailable |
 
 **Notes:**
 
@@ -247,17 +252,19 @@ This library is tested with obsessive attention to detail:
 If you're upgrading from the original copy.js:
 
 **Old (v0.1.x):**
+
 ```javascript
 // Returns error state (confusing!)
 const hasError = copy('text');
 
 // Callback receives error
-copy('text', function(err) {
+copy('text', function (err) {
   if (err) console.log('Failed');
 });
 ```
 
 **New (v0.2.x):**
+
 ```javascript
 // Promise-based (modern!)
 await copy('text');
@@ -305,12 +312,13 @@ npm run format
 This library embodies the principle that technology alone is not enough. It's technology married with craftsmanship, attention to detail, and obsessive refinement that yields results that make our hearts sing.
 
 Every line of code has been:
+
 - Questioned for necessity
 - Refined for elegance
 - Tested for robustness
 - Documented for clarity
 
-The goal isn't just a working clipboard library—it's the *inevitable* clipboard library.
+The goal isn't just a working clipboard library—it's the _inevitable_ clipboard library.
 
 ## License
 

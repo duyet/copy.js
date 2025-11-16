@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>copy.js - Interactive Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .demo-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+        }
+
+        .demo-section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 14px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.secondary {
+            background: #6c757d;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .result.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+            display: block;
+        }
+
+        .result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+            display: block;
+        }
+
+        .result.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 2px solid #bee5eb;
+            display: block;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .feature {
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+
+        .feature strong {
+            display: block;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        code {
+            background: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            border: 1px solid #dee2e6;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e9ecef;
+            color: #666;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>copy.js</h1>
+        <p class="subtitle">Elegant clipboard copy for the modern web</p>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">2.5KB</div>
+                <div class="stat-label">Minified</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Dependencies</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="copyCount">0</div>
+                <div class="stat-label">Copies Made</div>
+            </div>
+        </div>
+
+        <!-- Basic Demo -->
+        <div class="demo-section">
+            <h2>🎯 Basic Copy</h2>
+            <textarea id="basicText" placeholder="Enter text to copy...">Hello, copy.js! 👋
+
+Try copying this text to your clipboard.</textarea>
+            <div class="button-group">
+                <button onclick="basicCopy()">Copy Text</button>
+                <button class="secondary" onclick="clearBasic()">Clear</button>
+            </div>
+            <div id="basicResult" class="result"></div>
+        </div>
+
+        <!-- Advanced Demo -->
+        <div class="demo-section">
+            <h2>🚀 Advanced Options</h2>
+            <textarea id="advancedText" placeholder="Test advanced features...">Test these scenarios:
+- Very long text
+- Unicode: 你好世界 🚀 مرحبا العالم
+- Special chars: !@#$%^&*()
+- Multi-line content</textarea>
+            <div class="button-group">
+                <button onclick="copyWithFallback()">Copy (with fallback)</button>
+                <button onclick="copyNoFallback()">Copy (no fallback)</button>
+                <button onclick="copySilent()">Copy (silent mode)</button>
+            </div>
+            <div id="advancedResult" class="result"></div>
+        </div>
+
+        <!-- Callback Demo -->
+        <div class="demo-section">
+            <h2>🔄 Callback Style (Legacy)</h2>
+            <textarea id="callbackText" placeholder="Test callback API...">Testing callback-style API for backwards compatibility</textarea>
+            <div class="button-group">
+                <button onclick="copyWithCallback()">Copy with Callback</button>
+            </div>
+            <div id="callbackResult" class="result"></div>
+        </div>
+
+        <!-- Edge Cases -->
+        <div class="demo-section">
+            <h2>🧪 Edge Cases</h2>
+            <div class="button-group">
+                <button onclick="copyEmptyString()">Copy Empty String</button>
+                <button onclick="copyLongText()">Copy 10,000 Characters</button>
+                <button onclick="copyUnicode()">Copy Unicode & Emoji</button>
+                <button onclick="rapidCopy()">Rapid Copy (5x)</button>
+            </div>
+            <div id="edgeResult" class="result"></div>
+        </div>
+
+        <!-- Features -->
+        <div class="demo-section">
+            <h2>✨ Features</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <strong>Modern API</strong>
+                    <div>Promise-based async/await</div>
+                </div>
+                <div class="feature">
+                    <strong>TypeScript</strong>
+                    <div>Full type definitions</div>
+                </div>
+                <div class="feature">
+                    <strong>Smart Fallback</strong>
+                    <div>Works everywhere</div>
+                </div>
+                <div class="feature">
+                    <strong>Zero Deps</strong>
+                    <div>Lightweight & fast</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Browser Support -->
+        <div class="demo-section">
+            <h2>🌐 Browser Support</h2>
+            <p id="support-info">Checking clipboard support...</p>
+        </div>
+
+        <div class="footer">
+            <p>
+                <a href="https://github.com/duyetdev/copy.js" target="_blank">View on GitHub</a> |
+                <a href="https://www.npmjs.com/package/copy-js" target="_blank">npm Package</a> |
+                Made with obsessive attention to detail
+            </p>
+        </div>
+    </div>
+
+    <!-- Load copy.js from CDN or local build -->
+    <script src="../dist/copy.min.js"></script>
+
+    <script>
+        let copyCount = 0;
+
+        function incrementCounter() {
+            copyCount++;
+            document.getElementById('copyCount').textContent = copyCount;
+        }
+
+        function showResult(elementId, message, type = 'success') {
+            const result = document.getElementById(elementId);
+            result.textContent = message;
+            result.className = `result ${type}`;
+
+            setTimeout(() => {
+                result.style.display = 'none';
+            }, 3000);
+        }
+
+        // Basic Copy
+        async function basicCopy() {
+            const text = document.getElementById('basicText').value;
+            try {
+                await copy(text);
+                incrementCounter();
+                showResult('basicResult', `✓ Copied ${text.length} characters successfully!`, 'success');
+            } catch (err) {
+                showResult('basicResult', `✗ Failed to copy: ${err.message}`, 'error');
+            }
+        }
+
+        function clearBasic() {
+            document.getElementById('basicText').value = '';
+        }
+
+        // Advanced Options
+        async function copyWithFallback() {
+            const text = document.getElementById('advancedText').value;
+            try {
+                await copy(text, { fallback: true, debug: true });
+                incrementCounter();
+                showResult('advancedResult', '✓ Copied with fallback enabled', 'success');
+            } catch (err) {
+                showResult('advancedResult', `✗ Error: ${err.message}`, 'error');
+            }
+        }
+
+        async function copyNoFallback() {
+            const text = document.getElementById('advancedText').value;
+            try {
+                await copy(text, { fallback: false });
+                incrementCounter();
+                showResult('advancedResult', '✓ Copied using Clipboard API only', 'success');
+            } catch (err) {
+                showResult('advancedResult', `✗ Clipboard API failed: ${err.message}`, 'error');
+            }
+        }
+
+        async function copySilent() {
+            const text = document.getElementById('advancedText').value;
+            try {
+                await copy(text, { debug: false });
+                incrementCounter();
+                showResult('advancedResult', '✓ Copied in silent mode (no console output)', 'success');
+            } catch (err) {
+                showResult('advancedResult', `✗ Error: ${err.message}`, 'error');
+            }
+        }
+
+        // Callback Style
+        function copyWithCallback() {
+            const text = document.getElementById('callbackText').value;
+            copy(text, (err) => {
+                if (err) {
+                    showResult('callbackResult', `✗ Callback received error: ${err.message}`, 'error');
+                } else {
+                    incrementCounter();
+                    showResult('callbackResult', '✓ Callback received success!', 'success');
+                }
+            });
+        }
+
+        // Edge Cases
+        async function copyEmptyString() {
+            try {
+                await copy('');
+                incrementCounter();
+                showResult('edgeResult', '✓ Empty string copied successfully', 'success');
+            } catch (err) {
+                showResult('edgeResult', `✗ Error: ${err.message}`, 'error');
+            }
+        }
+
+        async function copyLongText() {
+            const longText = 'A'.repeat(10000);
+            try {
+                await copy(longText);
+                incrementCounter();
+                showResult('edgeResult', `✓ Copied 10,000 characters successfully!`, 'success');
+            } catch (err) {
+                showResult('edgeResult', `✗ Error: ${err.message}`, 'error');
+            }
+        }
+
+        async function copyUnicode() {
+            const unicode = '你好世界 🚀 مرحبا العالم ¡Hola! Привет!';
+            try {
+                await copy(unicode);
+                incrementCounter();
+                showResult('edgeResult', '✓ Unicode and emoji copied successfully! 🎉', 'success');
+            } catch (err) {
+                showResult('edgeResult', `✗ Error: ${err.message}`, 'error');
+            }
+        }
+
+        async function rapidCopy() {
+            try {
+                const promises = [];
+                for (let i = 1; i <= 5; i++) {
+                    promises.push(copy(`Rapid copy #${i}`));
+                }
+                await Promise.all(promises);
+                copyCount += 5;
+                document.getElementById('copyCount').textContent = copyCount;
+                showResult('edgeResult', '✓ 5 rapid copies completed successfully!', 'success');
+            } catch (err) {
+                showResult('edgeResult', `✗ Rapid copy failed: ${err.message}`, 'error');
+            }
+        }
+
+        // Check browser support
+        window.addEventListener('DOMContentLoaded', () => {
+            const supportInfo = document.getElementById('support-info');
+
+            if (typeof copy.isSupported === 'function' && copy.isSupported()) {
+                const hasClipboardAPI = navigator.clipboard ? '✓' : '✗';
+                const hasExecCommand = document.queryCommandSupported?.('copy') ? '✓' : '✗';
+
+                supportInfo.innerHTML = `
+                    <strong>Clipboard Support Detected:</strong><br>
+                    ${hasClipboardAPI} Modern Clipboard API<br>
+                    ${hasExecCommand} Legacy execCommand<br>
+                    <br>
+                    <span style="color: #28a745; font-weight: bold;">✓ Your browser is fully supported!</span>
+                `;
+            } else {
+                supportInfo.innerHTML = `
+                    <span style="color: #dc3545; font-weight: bold;">✗ Clipboard operations not supported in this environment</span>
+                `;
+            }
+        });
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    basicCopy();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

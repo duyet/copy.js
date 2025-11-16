@@ -113,7 +113,9 @@ describe('copy.js', () => {
 
   describe('Options', () => {
     it('should respect debug: false option', async () => {
-      const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      const consoleWarnSpy = vi
+        .spyOn(console, 'warn')
+        .mockImplementation(() => {});
       document.execCommand = vi.fn().mockImplementation(() => {
         throw new Error('Test error');
       });
@@ -149,11 +151,7 @@ describe('copy.js', () => {
     it('should handle rapid successive calls', async () => {
       document.execCommand = vi.fn().mockReturnValue(true);
 
-      await Promise.all([
-        copy('Text 1'),
-        copy('Text 2'),
-        copy('Text 3'),
-      ]);
+      await Promise.all([copy('Text 1'), copy('Text 2'), copy('Text 3')]);
 
       expect(document.execCommand).toHaveBeenCalledTimes(3);
     });

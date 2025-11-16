@@ -28,15 +28,20 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
+    "test:ci": "vitest run --reporter=verbose --coverage",
     "build": "npm run clean && npm run build:esm && npm run build:cjs && npm run build:umd",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:cjs": "tsc -p tsconfig.cjs.json && node scripts/fix-cjs.js",
     "build:umd": "node scripts/build-umd.js",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist coverage",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src test --ext .ts",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "prepublishOnly": "npm run test && npm run build"
+    "lint:fix": "eslint src test --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.md\" \"*.json\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\" \"*.md\" \"*.json\"",
+    "prepublishOnly": "npm run test && npm run build",
+    "prepare": "npm run build",
+    "demo": "npx serve examples"
   },
   "repository": {
     "type": "git",
@@ -53,14 +58,32 @@
     "promise",
     "zero-dependencies",
     "lightweight",
-    "copy.js"
+    "copy.js",
+    "browser",
+    "dom",
+    "navigator.clipboard",
+    "execCommand",
+    "esm",
+    "cjs",
+    "umd",
+    "tree-shakeable",
+    "elegant",
+    "fallback"
   ],
-  "author": "Van-Duyet Le <me@duyetdev.com>",
+  "author": {
+    "name": "Van-Duyet Le",
+    "email": "me@duyetdev.com",
+    "url": "https://github.com/duyetdev"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/duyetdev/copy.js/issues"
   },
   "homepage": "https://github.com/duyetdev/copy.js#readme",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/duyetdev"
+  },
   "devDependencies": {
     "@types/node": "^22.10.2",
     "@typescript-eslint/eslint-plugin": "^8.18.2",
@@ -75,5 +98,9 @@
   },
   "engines": {
     "node": ">=14.0.0"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
   }
 }
