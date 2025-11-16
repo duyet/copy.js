@@ -85,6 +85,28 @@ describe('copy.js', () => {
         'No clipboard API available and fallback is disabled'
       );
     });
+
+    it('should not show debug messages when Clipboard API fails with debug disabled', async () => {
+      const consoleWarnSpy = vi
+        .spyOn(console, 'warn')
+        .mockImplementation(() => {});
+      const writeTextMock = vi
+        .fn()
+        .mockRejectedValue(new Error('Permission denied'));
+      Object.defineProperty(navigator, 'clipboard', {
+        value: { writeText: writeTextMock },
+        writable: true,
+        configurable: true,
+      });
+      const execCommandMock = vi.fn().mockReturnValue(true);
+      document.execCommand = execCommandMock;
+
+      await copy('Test', { debug: false });
+
+      expect(consoleWarnSpy).not.toHaveBeenCalled();
+      expect(execCommandMock).toHaveBeenCalled();
+      consoleWarnSpy.mockRestore();
+    });
   });
 
   describe('execCommand fallback', () => {
