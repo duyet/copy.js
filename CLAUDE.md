@@ -11,7 +11,7 @@ This project embodies the principle that **technology married with craftsmanship
 1. **Think Different** - Question assumptions, find elegant solutions
 2. **Obsess Over Details** - Every function name should sing, every edge case handled
 3. **Test Everything** - No code without tests
-4. **Document Thoroughly** - Explain the *why*, not just the *what*
+4. **Document Thoroughly** - Explain the _why_, not just the _what_
 5. **Iterate Relentlessly** - Good is not good enough
 6. **Simplify Ruthlessly** - Elegance through reduction
 
@@ -80,6 +80,7 @@ isSupported(): boolean
 ### Type Safety
 
 Full TypeScript with strict mode:
+
 - No `any` types
 - Comprehensive JSDoc on all exports
 - `.d.ts` files for both ESM and CJS
@@ -87,32 +88,37 @@ Full TypeScript with strict mode:
 ## Code Quality Standards
 
 ### TypeScript
+
 - Strict mode enabled
 - Explicit types for all parameters and returns
 - Avoid `any` - use `unknown` if necessary
 - Modern ES2017+ features
 
 ### Testing
+
 - **Target**: 100% coverage on core functionality
 - **Framework**: Vitest with jsdom
 - **Pattern**: Arrange-Act-Assert
 - Test edge cases: empty strings, Unicode, long text, rapid calls
 
 ### Documentation
+
 - JSDoc on all public APIs
 - Include `@param`, `@returns`, `@throws`, `@example`
 - Examples in documentation should actually work
 - Keep README.md and CHANGELOG.md updated
 
 ### Code Style
+
 - 2 spaces, single quotes, semicolons
 - 80 char line length (flexible for readability)
 - Meaningful names (no `x`, `y`, `temp`)
-- Comments explain *why*, not *what*
+- Comments explain _why_, not _what_
 
 ## Build System
 
 ### Commands
+
 ```bash
 npm test              # Run tests
 npm run build         # Build all formats
@@ -123,11 +129,13 @@ npm run demo          # Run demo server
 ```
 
 ### Output Formats
+
 - **ESM** (`dist/esm/`) - Modern ES modules, tree-shakeable
 - **CJS** (`dist/cjs/`) - CommonJS for Node.js
 - **UMD** (`dist/copy.min.js`) - Browser global, 2.6KB minified
 
 ### Build Pipeline
+
 1. `tsc` compiles TypeScript → ESM & CJS
 2. `fix-cjs.js` adds proper CommonJS exports
 3. `build-umd.js` creates browser bundles with esbuild
@@ -135,9 +143,11 @@ npm run demo          # Run demo server
 ## Dependencies
 
 ### Runtime
+
 **ZERO** - This is a core principle. Never add runtime dependencies.
 
 ### Development
+
 - TypeScript 5.7+ (compiler)
 - Vitest 2.x (testing)
 - ESBuild 0.24+ (bundling)
@@ -196,21 +206,25 @@ npm run demo          # Run demo server
 ### Workflows
 
 **CI** (`.github/workflows/ci.yml`):
-- Runs on: push to main/develop/claude/**, PRs
+
+- Runs on: push to main/develop/claude/\*\*, PRs
 - Tests on: Node 18, 20, 22
 - Steps: typecheck → lint → test → build
 - Uploads: coverage to Codecov (optional)
 
 **CodeQL** (`.github/workflows/codeql.yml`):
+
 - Security scanning
 - Runs weekly + on PRs
 
 **Release** (`.github/workflows/release.yml`):
-- Triggered by: version tags (v*)
+
+- Triggered by: version tags (v\*)
 - Publishes to npm automatically
 - Creates GitHub release
 
 ### Important Notes
+
 - No `npm ci` - we use `npm install` (no lock file)
 - No cache for npm (not needed for libraries)
 - Build artifacts are gitignored but included in npm package
@@ -218,6 +232,7 @@ npm run demo          # Run demo server
 ## Security
 
 ### Principles
+
 - Never use `eval()` or `Function()` constructor
 - No innerHTML (use textContent)
 - Sanitize if accepting untrusted input
@@ -225,6 +240,7 @@ npm run demo          # Run demo server
 - CodeQL scanning enabled
 
 ### Vulnerability Response
+
 1. Assess impact
 2. Create patch ASAP
 3. Update CHANGELOG.md with security note
@@ -234,6 +250,7 @@ npm run demo          # Run demo server
 ## Examples & Demos
 
 ### Interactive Demo (`examples/index.html`)
+
 - Beautiful UI with gradient design
 - Real-time copy counter
 - Multiple test scenarios
@@ -241,12 +258,14 @@ npm run demo          # Run demo server
 - Self-contained (works offline)
 
 ### Compatibility Test (`examples/browser-compatibility.html`)
+
 - 17 automated tests
 - Performance measurements
 - Environment detection
 - Run-all-tests feature
 
 ### Framework Examples
+
 - **React**: Hooks pattern, TypeScript
 - **Vue**: Composition API + Options API
 - **Node.js**: Usage notes (browser-only library)
@@ -262,6 +281,7 @@ Follow **Semantic Versioning** (semver):
 ### Current Version: 0.2.0
 
 Breaking changes from 0.1.x:
+
 - Promise-based API (was callback-only)
 - Error-first callbacks (was boolean error)
 - TypeScript (was JavaScript)
@@ -272,6 +292,7 @@ Breaking changes from 0.1.x:
 See `CONTRIBUTING.md` for detailed guidelines.
 
 **Quick Checklist**:
+
 - [ ] Tests added/updated
 - [ ] Documentation updated
 - [ ] CHANGELOG.md updated
@@ -283,6 +304,7 @@ See `CONTRIBUTING.md` for detailed guidelines.
 ## Package Publishing
 
 ### Pre-publish Checklist
+
 1. All tests passing
 2. Version bumped in `package.json`
 3. CHANGELOG.md updated
@@ -291,6 +313,7 @@ See `CONTRIBUTING.md` for detailed guidelines.
 6. Examples working
 
 ### Publish Process
+
 ```bash
 # Manual
 npm version [major|minor|patch]
@@ -306,16 +329,19 @@ git push --tags
 ## Known Gotchas
 
 ### Browser Compatibility
+
 - Clipboard API requires HTTPS (except localhost)
 - Some browsers block clipboard in background tabs
 - execCommand is deprecated but still works
 
 ### Testing
+
 - jsdom doesn't have real clipboard
 - Must mock `navigator.clipboard`
 - execCommand tests use real DOM manipulation
 
 ### Build
+
 - `prepare` script runs on install (builds dist/)
 - This is intentional for git installs
 - npm ignores test files (see `.npmignore`)
@@ -323,6 +349,7 @@ git push --tags
 ## Future Considerations
 
 ### Potential Enhancements
+
 - [ ] Read from clipboard (needs user permission)
 - [ ] Copy rich text/HTML
 - [ ] Copy images
@@ -330,6 +357,7 @@ git push --tags
 - [ ] React/Vue npm packages
 
 ### Won't Do
+
 - ❌ Node.js clipboard (use `clipboardy` instead)
 - ❌ File system operations
 - ❌ Any runtime dependencies
@@ -345,6 +373,7 @@ git push --tags
 ## Questions?
 
 When in doubt:
+
 1. Check existing code patterns
 2. Read the tests
 3. Look at examples
