@@ -6,7 +6,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![CI](https://img.shields.io/github/actions/workflow/status/duyetdev/copy.js/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/duyetdev/copy.js/actions)
-[![Code Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen?style=flat-square)](https://github.com/duyetdev/copy.js)
+[![Code Coverage](https://img.shields.io/badge/coverage-97.7%25-brightgreen?style=flat-square)](https://github.com/duyetdev/copy.js)
 
 > Elegant clipboard copy for the modern web. Zero dependencies, TypeScript support, Promise-based with intelligent fallbacks.
 
@@ -17,7 +17,7 @@ In 2025, clipboard operations should be simple, reliable, and elegant. copy.js p
 - **Modern First** - Uses the Clipboard API with intelligent fallback to `execCommand`
 - **Promise-Based** - Clean async/await syntax, with optional callback support
 - **TypeScript Native** - Full type definitions included
-- **Zero Dependencies** - Lightweight at ~2KB minified
+- **Zero Dependencies** - Lightweight at ~2.5KB minified
 - **Bulletproof** - Comprehensive test suite covering edge cases
 - **Universal** - Works in modern browsers, gracefully degrades for legacy support
 - **Well-Crafted** - Every line of code written with obsessive attention to detail
