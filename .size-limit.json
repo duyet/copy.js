@@ -1,0 +1,18 @@
+[
+  {
+    "name": "ESM",
+    "path": "dist/esm/copy.js",
+    "limit": "3 KB"
+  },
+  {
+    "name": "CJS",
+    "path": "dist/cjs/copy.js",
+    "limit": "3 KB"
+  },
+  {
+    "name": "UMD (minified)",
+    "path": "dist/copy.min.js",
+    "limit": "2.5 KB",
+    "gzip": true
+  }
+]

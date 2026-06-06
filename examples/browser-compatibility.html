@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Compatibility Test - copy.js</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .info-box h2 {
+            margin-bottom: 10px;
+            color: #444;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .test-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .test-card h3 {
+            margin-bottom: 15px;
+            color: #444;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .feature-status {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .status-dot.supported {
+            background: #28a745;
+        }
+
+        .status-dot.not-supported {
+            background: #dc3545;
+        }
+
+        .status-dot.partial {
+            background: #ffc107;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+
+        .log {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .log-entry {
+            margin: 5px 0;
+        }
+
+        .log-time {
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <h1>Browser Compatibility Test Suite</h1>
+    <p class="subtitle">Testing copy.js across different scenarios and browser capabilities</p>
+
+    <div class="info-box">
+        <h2>Environment Information</h2>
+        <table>
+            <tr>
+                <th>Property</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>User Agent</td>
+                <td id="userAgent"></td>
+            </tr>
+            <tr>
+                <td>Platform</td>
+                <td id="platform"></td>
+            </tr>
+            <tr>
+                <td>Is Secure Context</td>
+                <td id="secureContext"></td>
+            </tr>
+            <tr>
+                <td>Clipboard API</td>
+                <td id="clipboardAPI"></td>
+            </tr>
+            <tr>
+                <td>execCommand</td>
+                <td id="execCommand"></td>
+            </tr>
+            <tr>
+                <td>copy.js isSupported()</td>
+                <td id="copySupported"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="test-grid">
+        <div class="test-card">
+            <h3>Basic Copy Tests</h3>
+            <button onclick="testBasicCopy()">Test Simple Text</button>
+            <button onclick="testEmptyString()">Test Empty String</button>
+            <button onclick="testWhitespace()">Test Whitespace</button>
+            <div id="basic-result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-card">
+            <h3>Character Tests</h3>
+            <button onclick="testUnicode()">Test Unicode</button>
+            <button onclick="testEmoji()">Test Emoji</button>
+            <button onclick="testSpecialChars()">Test Special Characters</button>
+            <div id="char-result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-card">
+            <h3>Length Tests</h3>
+            <button onclick="testShortText()">Test Short Text (< 100)</button>
+            <button onclick="testMediumText()">Test Medium Text (~ 1000)</button>
+            <button onclick="testLongText()">Test Long Text (~ 10000)</button>
+            <div id="length-result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-card">
+            <h3>Format Tests</h3>
+            <button onclick="testMultiline()">Test Multiline</button>
+            <button onclick="testJSON()">Test JSON</button>
+            <button onclick="testHTML()">Test HTML</button>
+            <div id="format-result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-card">
+            <h3>Performance Tests</h3>
+            <button onclick="testRapidCopy()">Test Rapid Copy (10x)</button>
+            <button onclick="testConcurrent()">Test Concurrent Copy (5x)</button>
+            <div id="perf-result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="test-card">
+            <h3>API Tests</h3>
+            <button onclick="testPromise()">Test Promise API</button>
+            <button onclick="testCallback()">Test Callback API</button>
+            <button onclick="testOptions()">Test Options</button>
+            <div id="api-result" class="result" style="display:none;"></div>
+        </div>
+    </div>
+
+    <div class="info-box">
+        <h2>Test Log</h2>
+        <button onclick="clearLog()" style="width: auto; margin-bottom: 10px;">Clear Log</button>
+        <button onclick="runAllTests()" style="width: auto; margin-bottom: 10px; background: #28a745;">Run All Tests</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script src="../dist/copy.min.js"></script>
+    <script>
+        // Initialize environment info
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+        document.getElementById('platform').textContent = navigator.platform;
+        document.getElementById('secureContext').textContent = window.isSecureContext ? '✓ Yes' : '✗ No';
+        document.getElementById('clipboardAPI').textContent = navigator.clipboard ? '✓ Available' : '✗ Not Available';
+        document.getElementById('execCommand').textContent = document.queryCommandSupported?.('copy') ? '✓ Supported' : '✗ Not Supported';
+        document.getElementById('copySupported').textContent = (typeof copy.isSupported === 'function' && copy.isSupported()) ? '✓ Supported' : '✗ Not Supported';
+
+        function log(message, type = 'info') {
+            const logEl = document.getElementById('log');
+            const time = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span class="log-time">[${time}]</span> ${message}`;
+            logEl.appendChild(entry);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+
+        function showResult(elementId, message, type) {
+            const el = document.getElementById(elementId);
+            el.textContent = message;
+            el.className = `result ${type}`;
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 5000);
+        }
+
+        // Basic Copy Tests
+        async function testBasicCopy() {
+            try {
+                await copy('Hello, World!');
+                showResult('basic-result', '✓ Basic copy successful', 'success');
+                log('✓ Basic copy test passed');
+            } catch (err) {
+                showResult('basic-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Basic copy test failed: ${err.message}`);
+            }
+        }
+
+        async function testEmptyString() {
+            try {
+                await copy('');
+                showResult('basic-result', '✓ Empty string copied', 'success');
+                log('✓ Empty string test passed');
+            } catch (err) {
+                showResult('basic-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Empty string test failed: ${err.message}`);
+            }
+        }
+
+        async function testWhitespace() {
+            try {
+                await copy('   \n\t  ');
+                showResult('basic-result', '✓ Whitespace copied', 'success');
+                log('✓ Whitespace test passed');
+            } catch (err) {
+                showResult('basic-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Whitespace test failed: ${err.message}`);
+            }
+        }
+
+        // Character Tests
+        async function testUnicode() {
+            try {
+                await copy('你好世界 مرحبا العالم Привет');
+                showResult('char-result', '✓ Unicode copied', 'success');
+                log('✓ Unicode test passed');
+            } catch (err) {
+                showResult('char-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Unicode test failed: ${err.message}`);
+            }
+        }
+
+        async function testEmoji() {
+            try {
+                await copy('🚀 🎉 ❤️ 👍 🔥 ✨');
+                showResult('char-result', '✓ Emoji copied', 'success');
+                log('✓ Emoji test passed');
+            } catch (err) {
+                showResult('char-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Emoji test failed: ${err.message}`);
+            }
+        }
+
+        async function testSpecialChars() {
+            try {
+                await copy('!@#$%^&*()_+-={}[]|\\:";\'<>?,./~`');
+                showResult('char-result', '✓ Special characters copied', 'success');
+                log('✓ Special characters test passed');
+            } catch (err) {
+                showResult('char-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Special characters test failed: ${err.message}`);
+            }
+        }
+
+        // Length Tests
+        async function testShortText() {
+            try {
+                await copy('A'.repeat(50));
+                showResult('length-result', '✓ Short text (50 chars) copied', 'success');
+                log('✓ Short text test passed');
+            } catch (err) {
+                showResult('length-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Short text test failed: ${err.message}`);
+            }
+        }
+
+        async function testMediumText() {
+            try {
+                await copy('A'.repeat(1000));
+                showResult('length-result', '✓ Medium text (1000 chars) copied', 'success');
+                log('✓ Medium text test passed');
+            } catch (err) {
+                showResult('length-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Medium text test failed: ${err.message}`);
+            }
+        }
+
+        async function testLongText() {
+            try {
+                const start = performance.now();
+                await copy('A'.repeat(10000));
+                const time = (performance.now() - start).toFixed(2);
+                showResult('length-result', `✓ Long text (10000 chars) copied in ${time}ms`, 'success');
+                log(`✓ Long text test passed (${time}ms)`);
+            } catch (err) {
+                showResult('length-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Long text test failed: ${err.message}`);
+            }
+        }
+
+        // Format Tests
+        async function testMultiline() {
+            try {
+                await copy('Line 1\nLine 2\nLine 3\n  Indented line');
+                showResult('format-result', '✓ Multiline text copied', 'success');
+                log('✓ Multiline test passed');
+            } catch (err) {
+                showResult('format-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Multiline test failed: ${err.message}`);
+            }
+        }
+
+        async function testJSON() {
+            try {
+                const json = JSON.stringify({ name: 'test', value: 123, nested: { key: 'value' } }, null, 2);
+                await copy(json);
+                showResult('format-result', '✓ JSON copied', 'success');
+                log('✓ JSON test passed');
+            } catch (err) {
+                showResult('format-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ JSON test failed: ${err.message}`);
+            }
+        }
+
+        async function testHTML() {
+            try {
+                await copy('<div class="test">Hello <strong>World</strong></div>');
+                showResult('format-result', '✓ HTML copied', 'success');
+                log('✓ HTML test passed');
+            } catch (err) {
+                showResult('format-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ HTML test failed: ${err.message}`);
+            }
+        }
+
+        // Performance Tests
+        async function testRapidCopy() {
+            try {
+                const start = performance.now();
+                for (let i = 0; i < 10; i++) {
+                    await copy(`Copy ${i + 1}`);
+                }
+                const time = (performance.now() - start).toFixed(2);
+                showResult('perf-result', `✓ 10 rapid copies completed in ${time}ms`, 'success');
+                log(`✓ Rapid copy test passed (${time}ms)`);
+            } catch (err) {
+                showResult('perf-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Rapid copy test failed: ${err.message}`);
+            }
+        }
+
+        async function testConcurrent() {
+            try {
+                const start = performance.now();
+                await Promise.all([
+                    copy('Concurrent 1'),
+                    copy('Concurrent 2'),
+                    copy('Concurrent 3'),
+                    copy('Concurrent 4'),
+                    copy('Concurrent 5')
+                ]);
+                const time = (performance.now() - start).toFixed(2);
+                showResult('perf-result', `✓ 5 concurrent copies completed in ${time}ms`, 'success');
+                log(`✓ Concurrent copy test passed (${time}ms)`);
+            } catch (err) {
+                showResult('perf-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Concurrent copy test failed: ${err.message}`);
+            }
+        }
+
+        // API Tests
+        async function testPromise() {
+            try {
+                await copy('Promise test');
+                showResult('api-result', '✓ Promise API works', 'success');
+                log('✓ Promise API test passed');
+            } catch (err) {
+                showResult('api-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Promise API test failed: ${err.message}`);
+            }
+        }
+
+        function testCallback() {
+            copy('Callback test', (err) => {
+                if (err) {
+                    showResult('api-result', `✗ Error: ${err.message}`, 'error');
+                    log(`✗ Callback API test failed: ${err.message}`);
+                } else {
+                    showResult('api-result', '✓ Callback API works', 'success');
+                    log('✓ Callback API test passed');
+                }
+            });
+        }
+
+        async function testOptions() {
+            try {
+                await copy('Options test', { fallback: true, debug: false });
+                showResult('api-result', '✓ Options work correctly', 'success');
+                log('✓ Options test passed');
+            } catch (err) {
+                showResult('api-result', `✗ Error: ${err.message}`, 'error');
+                log(`✗ Options test failed: ${err.message}`);
+            }
+        }
+
+        // Run all tests
+        async function runAllTests() {
+            clearLog();
+            log('Starting comprehensive test suite...', 'info');
+
+            const tests = [
+                { name: 'Basic Copy', fn: testBasicCopy },
+                { name: 'Empty String', fn: testEmptyString },
+                { name: 'Whitespace', fn: testWhitespace },
+                { name: 'Unicode', fn: testUnicode },
+                { name: 'Emoji', fn: testEmoji },
+                { name: 'Special Characters', fn: testSpecialChars },
+                { name: 'Short Text', fn: testShortText },
+                { name: 'Medium Text', fn: testMediumText },
+                { name: 'Long Text', fn: testLongText },
+                { name: 'Multiline', fn: testMultiline },
+                { name: 'JSON', fn: testJSON },
+                { name: 'HTML', fn: testHTML },
+                { name: 'Rapid Copy', fn: testRapidCopy },
+                { name: 'Concurrent Copy', fn: testConcurrent },
+                { name: 'Promise API', fn: testPromise },
+                { name: 'Callback API', fn: testCallback },
+                { name: 'Options', fn: testOptions }
+            ];
+
+            let passed = 0;
+            let failed = 0;
+
+            for (const test of tests) {
+                try {
+                    await test.fn();
+                    passed++;
+                } catch (err) {
+                    failed++;
+                }
+                await new Promise(r => setTimeout(r, 100));
+            }
+
+            log(`\n=== Test Summary ===`);
+            log(`Total: ${tests.length} | Passed: ${passed} | Failed: ${failed}`);
+            log(`Success Rate: ${((passed / tests.length) * 100).toFixed(1)}%`);
+        }
+
+        // Initial log
+        log('Browser compatibility test page loaded');
+        log(`Environment: ${navigator.clipboard ? 'Modern Clipboard API' : 'Legacy execCommand'}`);
+    </script>
+</body>
+</html>

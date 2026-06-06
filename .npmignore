@@ -1,0 +1,60 @@
+# Source files (already compiled in dist/)
+*.ts
+!*.d.ts
+
+# Tests
+test/
+*.test.*
+*.spec.*
+coverage/
+.nyc_output/
+
+# Examples
+examples/
+
+# Build config
+tsconfig*.json
+vitest.config.ts
+eslint.config.js
+.prettierrc.json
+.size-limit.json
+
+# Scripts
+scripts/
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# GitHub
+.github/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.*
+
+# Misc
+.cache/
+.temp/
+*.tmp
